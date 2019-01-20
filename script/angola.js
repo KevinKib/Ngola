@@ -18,7 +18,7 @@ class Angola {
         this.initialiserBillesPlateau();
         this.__plateau.ascii_light();
         console.log('');
-        this.play('e2');
+        this.play('a2');
         console.log('');
         this.__plateau.ascii_light();
     }
@@ -59,6 +59,8 @@ class Angola {
         if (c == null) throw "Case inexistante.";
         if (c.joueur != this.__joueurCourant) throw "Case appartenant au joueur adverse.";
         if (!c.peutJouer) throw "La case n'a pas assez de billes pour être jouée.";
+
+        let derniereCaseVide = c;
         
         let main = this.remplirMain(c);
 
@@ -67,16 +69,33 @@ class Angola {
 
             console.log(main);
 
-            // la main ne devrait jamais être à 0
             if (main == 1) {
                 if (c.estVide) {
                     // on dépose la dernière bille dans la case d'après
                     main = this.deposerBille(c.caseSuivante, main);
                 }
                 else {
+                    let captured = false;
+
                     // on remplit la main
                     main = this.deposerBille(c, main);
-                    main = this.remplirMain(c, main);
+                    
+                    let capt = this.capture(c, main, captured);
+                    
+                    main = capt[0];
+                    captured = capt[1];
+
+                    if (captured) {
+                        c = derniereCaseVide;
+                        console.log("capture main : "+main);
+
+                        console.log('');
+                        this.__plateau.ascii_light();
+                        console.log('');
+                    }
+                    else {
+                        main = this.remplirMain(c, main);
+                    }
                 }
             }
             else {
@@ -86,8 +105,22 @@ class Angola {
         }
     }
 
-    avancerCase() {
+    /** Tente de capturer les billes ennemies sur la même colonne. */
+    capture(c, main, captured) {
+        
+        if (c.caseAttaquer != null) {
+            if (!c.caseAttaquer.estVide && !c.caseAttaquer.caseLiee.estVide) {
+                main += c.caseAttaquer.nbBilles;
+                main += c.caseAttaquer.caseLiee.nbBilles;
+    
+                c.caseAttaquer.vider();
+                c.caseAttaquer.caseLiee.vider();
 
+                captured = true;
+            }
+        }
+        
+        return [main, captured];
     }
 
     /** Dépose une bille de la main dans une case */

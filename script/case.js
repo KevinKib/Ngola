@@ -36,6 +36,11 @@ class Case {
 
     }
 
+    /** Vide la case. */
+    vider() {
+        this.nbBilles = 0;
+    }
+
     set caseSuivante(caseSuivante) {
         this.__caseSuivante = caseSuivante;
     }
@@ -56,7 +61,7 @@ class Case {
         this.__caseLiee = caseLiee;
     }
 
-    get caseLiees() {
+    get caseLiee() {
         return this.__caseLiee;
     }
 
