@@ -15,7 +15,6 @@ class Case {
         this.__ligne = nom.charAt(1);
 
         // Joueur à laquelle appartient la case
-
         if (this.__ligne == 1 || this.__ligne == 2) {
             this.__joueur = 1;
         }
@@ -75,6 +74,14 @@ class Case {
 
     get nbBilles() {
         return this.__nbBilles;
+    }
+
+    get estVide() {
+        return this.__nbBilles == 0;
+    }
+
+    get peutJouer() {
+        return this.__nbBilles > 1;
     }
 
 }

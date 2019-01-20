@@ -9,10 +9,8 @@ class Plateau {
         
         // Liste des cases du plateau
         this.__listeCases = [];
-
-        
+   
         this.initialisationPlateau();
-
     }
 
     /** Ajoute toutes les cases du plateau, avec leur nom, et initialise leur liens avec
@@ -72,7 +70,6 @@ class Plateau {
 
         }
 
-
         // Définition des cases à attaquer et des cases liées
         for (let indexCol = 1; indexCol <= 8; indexCol++) {
             let col = str.charAt(indexCol-1);
@@ -119,11 +116,41 @@ class Plateau {
         })
 
         return listeCasesJoueur;
-
     }
 
-    
+    /** Affiche le plateau sous un visuel console. */
+    ascii() {
+        console.log('---------------------------------');
+        let str = 'abcdefgh';
+        for (let line = 1; line <= 4; line++) {
+            process.stdout.write('| ');
+            for (let indexCol = 1; indexCol <= 8; indexCol++) {
+                
+                let col = str.charAt(indexCol-1);
+                let nom = col+line;
 
+                let c = this.getCase(nom);
+                process.stdout.write(c.nbBilles + ' | ');
+            }
+            console.log('\n---------------------------------');
+        }
+    }
+
+    /** Affiche le plateau sous un visuel console. */
+    ascii_light() {
+        let str = 'abcdefgh';
+        for (let line = 1; line <= 4; line++) {
+            for (let indexCol = 1; indexCol <= 8; indexCol++) {
+                
+                let col = str.charAt(indexCol-1);
+                let nom = col+line;
+
+                let c = this.getCase(nom);
+                process.stdout.write(c.nbBilles+' ');
+            }
+            console.log('');
+        }
+    }
 }
 
 module.exports.Plateau = Plateau;
