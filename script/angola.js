@@ -25,16 +25,17 @@ class Angola {
 
     /** Initialise le nombre de billes du plateau. */
     initialiserBillesPlateau() {
-        this.initialiserBillesPlateauAleatoirement();
+        this.initialiserBillesPlateauAleatoirement(1);
+        this.initialiserBillesPlateauAleatoirement(2);
     }
 
     /** Initialise le nombre de billes du plateau, aléatoirement. 
      * 32 billes. On place toutes les cases du plateau dans une liste, on remet le nombre de billes à zéro,
      * et on place aléatoirement chaque bille dans une de ces cases.
      */
-    initialiserBillesPlateauAleatoirement() {
+    initialiserBillesPlateauAleatoirement(indexJoueur) {
 
-        let listeCases = this.__plateau.getListeCases(1);
+        let listeCases = this.__plateau.getListeCases(indexJoueur);
 
         // Remise à zéro du nombre de billes de chaque case du plateau
         listeCases.forEach(function(c) {
@@ -42,7 +43,7 @@ class Angola {
         })
 
         // Pour toutes les 32 billes, on place aléatoirement chaque bille dans une des 16 cases du plateau.
-        for (let i = 0; i < this.NB_CASES; i++) {
+        for (let i = 0; i < this.NB_CASES_PAR_JOUEUR; i++) {
             let indexCase = Math.floor((Math.random() * 15) + 0);
             listeCases[indexCase].nbBilles++;
         }
@@ -61,7 +62,6 @@ class Angola {
         if (!c.peutJouer) throw "La case n'a pas assez de billes pour être jouée.";
 
         let derniereCaseVide = c;
-        
         let main = this.remplirMain(c);
 
         while (main > 0) {
@@ -103,6 +103,8 @@ class Angola {
                 main = this.deposerBille(c, main);
             }
         }
+
+        this.changerJoueurCourant();
     }
 
     /** Tente de capturer les billes ennemies sur la même colonne. */
@@ -132,15 +134,30 @@ class Angola {
         return main;
     }
 
+    /** Remplit la main du joueur avec les cases de la bille. */
     remplirMain(c) {
         let main = c.nbBilles;
         c.nbBilles = 0;
         return main;
     }
 
+    /** Change le joueur courant à la fin d'un tour. */
+    changerJoueurCourant() {
+        if (this.__joueurCourant == 1) {
+            this.__joueurCourant = 2;
+        }
+        else {
+            this.__joueurCourant = 1;
+        }
+    }
+
     // Propriétés read-only
     get NB_CASES() {
         return 32;
+    }
+
+    get NB_CASES_PAR_JOUEUR() {
+        return 16;
     }
 
     // Tests

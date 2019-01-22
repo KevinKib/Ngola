@@ -136,7 +136,7 @@ class Plateau {
         }
     }
 
-    /** Affiche le plateau sous un visuel console. */
+    /** Affiche le plateau sous un visuel console, qui est simplifié. */
     ascii_light() {
         let str = 'abcdefgh';
         for (let line = 1; line <= 4; line++) {
