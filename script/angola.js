@@ -151,6 +151,21 @@ class Angola {
         }
     }
 
+    /** Renvoie une liste de tous les mouvements légaux à ce stade de la partie. */
+    listeLegalMoves() {
+        let listeCases = this.__plateau.getListeCases(this.__joueurCourant);
+        let listeLegalMoves = [];
+
+        listeCases.forEach(function(c) {
+            if (c.peutJouer) {
+                listeLegalMoves.push(c);
+                console.log(c.nom);
+            }
+        });
+
+        return listeLegalMoves;
+    }
+
     // Propriétés read-only
     get NB_CASES() {
         return 32;
