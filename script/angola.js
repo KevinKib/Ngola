@@ -1,55 +1,41 @@
 const Plateau = require('./plateau').Plateau;
+const AI = require('./ai').AI;
 
 class Angola {
 
     constructor() {
+        // Plateau de jeu.
         this.__plateau = new Plateau(this);
 
-        /* Index du joueur courant
-            1 pour J1 [blanc],
-            2 pour J2 [noir]) 
-            Pourra être aléatoire dans le futur */
+        /** Index du joueur courant :
+         * 1 pour J1 [blanc],
+         * 2 pour J2 [noir]).
+         * Pourra être aléatoire dans le futur. */
         this.__joueurCourant = 1;
+
+        this.__vainqueur = null;
     }
+
+
+    // ------------------
+    // METHODES PUBLIQUES
+    // ------------------
+
 
     /** Démarre une partie du jeu. */
     run() {
         console.log('Game run.');
         this.initialiserBillesPlateau();
-        this.__plateau.ascii_light();
-        console.log('');
-        this.play('a2');
-        console.log('');
-        this.__plateau.ascii_light();
-    }
 
-    /** Initialise le nombre de billes du plateau. */
-    initialiserBillesPlateau() {
-        this.initialiserBillesPlateauAleatoirement(1);
-        this.initialiserBillesPlateauAleatoirement(2);
-    }
 
-    /** Initialise le nombre de billes du plateau, aléatoirement. 
-     * 32 billes. On place toutes les cases du plateau dans une liste, on remet le nombre de billes à zéro,
-     * et on place aléatoirement chaque bille dans une de ces cases.
-     */
-    initialiserBillesPlateauAleatoirement(indexJoueur) {
-
-        let listeCases = this.__plateau.getListeCases(indexJoueur);
-
-        // Remise à zéro du nombre de billes de chaque case du plateau
-        listeCases.forEach(function(c) {
-            c.nbBilles = 0;
-        })
-
-        // Pour toutes les 32 billes, on place aléatoirement chaque bille dans une des 16 cases du plateau.
-        for (let i = 0; i < this.NB_CASES_PAR_JOUEUR; i++) {
-            let indexCase = Math.floor((Math.random() * 15) + 0);
-            listeCases[indexCase].nbBilles++;
+        let randomAI = new AI(this);
+        let i = 0;
+        while(this.peutJouer && i <= 100) {
+            this.play(randomAI.play());
+            this.__plateau.ascii_light();
+            console.log('');
+            i++;
         }
-        
-        // Test
-        // console.log(listeCases[0].nbBilles);
     }
 
     /** Exécute un tour de jeu. */
@@ -67,7 +53,7 @@ class Angola {
         while (main > 0) {
             c = c.caseSuivante;
 
-            console.log(main);
+            //console.log('Main : '+main);
 
             if (main == 1) {
                 if (c.estVide) {
@@ -105,6 +91,75 @@ class Angola {
         }
 
         this.changerJoueurCourant();
+    }
+
+    /** Renvoie une liste de tous les mouvements légaux à ce stade de la partie. */
+    get listeLegalMoves() {
+        let listeCases = this.__plateau.getListeCases(this.__joueurCourant);
+        let listeLegalMoves = [];
+
+        listeCases.forEach(function(c) {
+            if (c.peutJouer) {
+                listeLegalMoves.push(c.nom);
+            }
+        });
+
+        return listeLegalMoves;
+    }
+
+    /** Renvoie true si le joueur courant possède encore des cases légales. */
+    get peutJouer() {
+        return this.listeLegalMoves.length > 0;
+    }
+
+    /** Etat de la partie.
+     * Renvoie 1 si le joueur 1 a gagné,
+     * 2 si le joueur 2 a gagné,
+     * null si la partie est en cours,
+     * 0 si la partie est en match nul. 
+     */
+    get etat() {
+        return this.__vainqueur;
+    }
+
+    /** Retourne le joueur courant. */
+    get joueurCourant() {
+        return this.__joueurCourant;
+    }
+
+
+    // ----------------
+    // METHODES PRIVEES
+    // ----------------
+
+
+    /** Initialise le nombre de billes du plateau. */
+    initialiserBillesPlateau() {
+        this.initialiserBillesPlateauAleatoirement(1);
+        this.initialiserBillesPlateauAleatoirement(2);
+    }
+
+    /** Initialise le nombre de billes du plateau, aléatoirement. 
+     * 32 billes. On place toutes les cases du plateau dans une liste, on remet le nombre de billes à zéro,
+     * et on place aléatoirement chaque bille dans une de ces cases.
+     */
+    initialiserBillesPlateauAleatoirement(indexJoueur) {
+
+        let listeCases = this.__plateau.getListeCases(indexJoueur);
+
+        // Remise à zéro du nombre de billes de chaque case du plateau
+        listeCases.forEach(function(c) {
+            c.nbBilles = 0;
+        })
+
+        // Pour toutes les 32 billes, on place aléatoirement chaque bille dans une des 16 cases du plateau.
+        for (let i = 0; i < this.NB_CASES_PAR_JOUEUR; i++) {
+            let indexCase = Math.floor((Math.random() * 15) + 0);
+            listeCases[indexCase].nbBilles++;
+        }
+        
+        // Test
+        // console.log(listeCases[0].nbBilles);
     }
 
     /** Tente de capturer les billes ennemies sur la même colonne. */
@@ -151,31 +206,17 @@ class Angola {
         }
     }
 
-    /** Renvoie une liste de tous les mouvements légaux à ce stade de la partie. */
-    listeLegalMoves() {
-        let listeCases = this.__plateau.getListeCases(this.__joueurCourant);
-        let listeLegalMoves = [];
-
-        listeCases.forEach(function(c) {
-            if (c.peutJouer) {
-                listeLegalMoves.push(c);
-                console.log(c.nom);
-            }
-        });
-
-        return listeLegalMoves;
-    }
-
-    // Propriétés read-only
+    /** Nombre de cases du jeu. */
     get NB_CASES() {
         return 32;
     }
 
+    /** Nombre de cases du jeu, par joueur. */
     get NB_CASES_PAR_JOUEUR() {
         return 16;
     }
 
-    // Tests
+    /** Test des cases suivantes. */
     test_plateau_caseSuivante() {
         // On parcourt le chemin
         let currentCase = this.__plateau.getCase('g4');
@@ -186,6 +227,7 @@ class Angola {
         }
     }
 
+    /** Test des liens entre les cases (attaquées // liées) */
     test_plateau_caseLiens() {
         let currentCase = this.__plateau.getCase('e2');
 
@@ -199,6 +241,15 @@ class Angola {
         }
 
         console.log('Case liee : '+currentCase.caseLiee.nom);
+    }
+
+    /** Test du jeu. */
+    test_run1() {
+        this.__plateau.ascii_light();
+        console.log('');
+        this.play('a2');
+        console.log('');
+        this.__plateau.ascii_light();
     }
 
 }
