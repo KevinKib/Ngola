@@ -36,6 +36,14 @@ class Angola {
             console.log('');
             i++;
         }
+        this.actualiserVainqueur();
+
+        switch(this.etatZeroSum) {
+            case 1: console.log('Joueur 1 gagne.'); break;
+            case 0: console.log('Match nul.'); break;
+            case -1: console.log('Joueur 2 gagne.'); break;
+            default: console.log('Erreur ?');
+        }
     }
 
     /** Exécute un tour de jeu. */
@@ -122,6 +130,18 @@ class Angola {
         return this.__vainqueur;
     }
 
+    /** Etat de la partie, vis à vis d'un jeu à somme nulle. */
+    get etatZeroSum() {
+        let res = null;
+        switch(this.__vainqueur) {
+            case 1: res = 1;  break;
+            case 2: res = -1; break;
+            case 0: res = 0;  break;
+            default: res = null;
+        }
+        return res;
+    }
+
     /** Retourne le joueur courant. */
     get joueurCourant() {
         return this.__joueurCourant;
@@ -203,6 +223,17 @@ class Angola {
         }
         else {
             this.__joueurCourant = 1;
+        }
+    }
+
+    /** Met a jour le vainqueur de la partie (l'état du jeu). */
+    actualiserVainqueur() {
+        if (!this.peutJouer) {
+            switch(this.__joueurCourant) {
+                case 1: this.__vainqueur = 2;break;
+                case 2: this.__vainqueur = 1; break;
+                default: this.__vainqueur = null;
+            }
         }
     }
 
