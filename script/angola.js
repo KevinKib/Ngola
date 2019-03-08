@@ -1,5 +1,6 @@
 const Plateau = require('./plateau');
 const AI = require('./ai');
+const AI_Minimax = require('./ai_minimax');
 
 class Angola {
 
@@ -27,11 +28,26 @@ class Angola {
         console.log('Game run.');
         this.initialiserBillesPlateau();
 
+        let angolaClone = this.clone();
+
+        console.log('Classic : ');
+        this.__plateau.ascii_light();
+    
+        console.log('Clone : ');
+        angolaClone.__plateau.ascii_light();
+
         let randomAI = new AI(this);
+        let minimaxAI = new AI_Minimax(this);
         
         let i = 0;
-        while(this.peutJouer && i <= 100) {
-            this.play(randomAI.play());
+        while(this.peutJouer && i <= 1) {
+            if (i % 2 == 0) {
+                this.play(randomAI.play());
+            }
+            else {
+                this.play(minimaxAI.play());
+            }
+            
             this.__plateau.ascii_light();
             console.log('');
             i++;
@@ -98,6 +114,17 @@ class Angola {
         }
 
         this.changerJoueurCourant();
+    }
+
+    /** Clone l'état du jeu. */
+    clone() {
+        let clone = new Angola();
+
+        clone.__joueurCourant = this.__joueurCourant;
+        clone.__vainqueur = this.__vainqueur;
+        clone.__plateau = this.__plateau.clone(clone);
+
+        return clone;
     }
 
     /** Renvoie une liste de tous les mouvements légaux à ce stade de la partie. */
@@ -245,6 +272,10 @@ class Angola {
     get NB_CASES_PAR_JOUEUR() {
         return 16;
     }
+
+    /** -----
+     *  TESTS
+     *  ----- */
 
     /** Test des cases suivantes. */
     test_plateau_caseSuivante() {

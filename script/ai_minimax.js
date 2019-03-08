@@ -6,8 +6,16 @@ class AI_Minimax {
 
     /** Thinks and returns a move. */
     play() {
+        
+        for (let move in this.__angola.listeLegalMoves) {
+            let angolaClone = this.__angola.clone();
+
+        }
+
         let randomIndex = Math.floor(Math.random() * this.__angola.listeLegalMoves.length);
         return this.__angola.listeLegalMoves[randomIndex];
+
+        
     }
 
     minimax(angola, depth, alpha, beta, maximizingPlayer) {

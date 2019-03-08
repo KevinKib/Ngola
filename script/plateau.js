@@ -151,6 +151,13 @@ class Plateau {
             console.log('');
         }
     }
+
+    /** Clone l'état actuel du plateau. */
+    clone(angola) {
+        let clone = new Plateau(angola);
+        clone.__listeCases = this.__listeCases.slice(0);
+        return clone;
+    }
 }
 
 module.exports = Plateau;
