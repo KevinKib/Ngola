@@ -91,4 +91,4 @@ class Case {
 
 }
 
-module.exports.Case = Case;
+module.exports = Case;

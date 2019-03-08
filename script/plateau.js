@@ -1,4 +1,4 @@
-const Case = require('./case').Case;
+const Case = require('./case');
 
 class Plateau {
 
@@ -153,4 +153,4 @@ class Plateau {
     }
 }
 
-module.exports.Plateau = Plateau;
+module.exports = Plateau;

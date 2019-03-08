@@ -6,9 +6,6 @@ class AI_Minimax {
 
     /** Thinks and returns a move. */
     play() {
-
-        
-
         let randomIndex = Math.floor(Math.random() * this.__angola.listeLegalMoves.length);
         return this.__angola.listeLegalMoves[randomIndex];
     }
@@ -55,4 +52,4 @@ class AI_Minimax {
 
 }
 
-module.exports.AI_Minimax = AI_Minimax;
+module.exports = AI_Minimax;

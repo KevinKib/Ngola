@@ -12,4 +12,4 @@ class AI {
 
 }
 
-module.exports.AI = AI;
+module.exports = AI;

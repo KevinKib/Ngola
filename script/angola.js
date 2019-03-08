@@ -1,5 +1,5 @@
-const Plateau = require('./plateau').Plateau;
-const AI = require('./ai').AI;
+const Plateau = require('./plateau');
+const AI = require('./ai');
 
 class Angola {
 
@@ -27,8 +27,8 @@ class Angola {
         console.log('Game run.');
         this.initialiserBillesPlateau();
 
-
         let randomAI = new AI(this);
+        
         let i = 0;
         while(this.peutJouer && i <= 100) {
             this.play(randomAI.play());
@@ -81,7 +81,6 @@ class Angola {
 
                     if (captured) {
                         c = derniereCaseVide;
-                        console.log("capture main : "+main);
 
                         console.log('');
                         this.__plateau.ascii_light();
