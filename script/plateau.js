@@ -13,6 +13,18 @@ class Plateau {
         this.initialisationPlateau();
     }
 
+    /** Clone le plateau. */
+    clone(angola) {
+        let self = this;
+        let plateau = new Plateau(angola);
+
+        plateau.__listeCases.forEach(function(c) {
+            c.nbBilles = self.getCase(c.nom).nbBilles;
+        });
+
+        return plateau;
+    }
+
     /** Ajoute toutes les cases du plateau, avec leur nom, et initialise leur liens avec
      * leurs cases suivantes, leurs cases d'attaque, et leurs cases liées.
      */
@@ -151,6 +163,7 @@ class Plateau {
             console.log('');
         }
     }
+ 
 }
 
 module.exports.Plateau = Plateau;

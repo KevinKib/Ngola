@@ -1,9 +1,16 @@
 const Plateau = require('./plateau').Plateau;
 const AI = require('./ai').AI;
+const AI_Minimax = require('./ai_minimax').AI_Minimax;
 
 class Angola {
 
     constructor() {
+        this.reset();
+        this.initialiserBillesPlateau();
+    }
+
+    /** Réinitialise le jeu. */
+    reset() {
         // Plateau de jeu.
         this.__plateau = new Plateau(this);
 
@@ -12,6 +19,8 @@ class Angola {
          * 2 pour J2 [noir]).
          * Pourra être aléatoire dans le futur. */
         this.__joueurCourant = 1;
+
+        this.premierJoueurAleatoire();
 
         this.__vainqueur = null;
     }
@@ -25,25 +34,19 @@ class Angola {
     /** Démarre une partie du jeu. */
     run() {
         console.log('Game run.');
-        this.initialiserBillesPlateau();
 
+        this.test_runAI();
+    }
 
-        let randomAI = new AI(this);
-        let i = 0;
-        while(this.peutJouer && i <= 100) {
-            this.play(randomAI.play());
-            this.__plateau.ascii_light();
-            console.log('');
-            i++;
-        }
-        this.actualiserVainqueur();
+    /** Clone le jeu. */
+    clone() {
+        let game = new Angola();
 
-        switch(this.etatZeroSum) {
-            case 1: console.log('Joueur 1 gagne.'); break;
-            case 0: console.log('Match nul.'); break;
-            case -1: console.log('Joueur 2 gagne.'); break;
-            default: console.log('Erreur ?');
-        }
+        game.__plateau = this.__plateau.clone(game);
+        game.__joueurCourant = this.__joueurCourant;
+        game.__vainqueur = this.__vainqueur;
+
+        return game;
     }
 
     /** Exécute un tour de jeu. */
@@ -81,11 +84,6 @@ class Angola {
 
                     if (captured) {
                         c = derniereCaseVide;
-                        console.log("capture main : "+main);
-
-                        console.log('');
-                        this.__plateau.ascii_light();
-                        console.log('');
                     }
                     else {
                         main = this.remplirMain(c, main);
@@ -237,6 +235,11 @@ class Angola {
         }
     }
 
+    /** Décide aléatoirement du premier joueur. */
+    premierJoueurAleatoire() {
+        this.__joueurCourant = Math.floor((Math.random() * 2) + 1);
+    }
+
     /** Nombre de cases du jeu. */
     get NB_CASES() {
         return 32;
@@ -245,6 +248,11 @@ class Angola {
     /** Nombre de cases du jeu, par joueur. */
     get NB_CASES_PAR_JOUEUR() {
         return 16;
+    }
+
+    /** Accesseur du plateau. */
+    get plateau() {
+        return this.__plateau;
     }
 
     /** Test des cases suivantes. */
@@ -281,6 +289,18 @@ class Angola {
         this.play('a2');
         console.log('');
         this.__plateau.ascii_light();
+    }
+
+    
+
+    test_clone() {
+        this.play(this.listeLegalMoves[0]);
+        console.log('');
+        this.__plateau.ascii_light();
+
+        let copy = this.clone();
+        console.log('');
+        copy.plateau.ascii_light();
     }
 
 }
