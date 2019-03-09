@@ -2,7 +2,10 @@ class AI_Minimax {
 
     constructor(angola) {
         this.__angola = angola;
-        this.__depth = 0;
+        this.__depth = 1;
+
+        this.__bestEvalValue = 1000;
+        this.__worstEvalValue = -1000;
     }
 
     /** Thinks and returns a move. */
@@ -30,6 +33,8 @@ class AI_Minimax {
         return bestChild;
     }
 
+    /** Applique l'algorithme Minimax a partir d'un coup;
+     * renvoie une évaluation globale. */
     minimax(angola, depth, alpha, beta, maximizingPlayer) {
         let res = null;
         
@@ -70,6 +75,7 @@ class AI_Minimax {
         return res;
     }
 
+    /** Evalue une position donnée du jeu Angola. */
     evaluation(angola) {
         let res = angola.etatZeroSum;
         if (res == null) res = 0;
@@ -81,6 +87,11 @@ class AI_Minimax {
         return res;
     }
 
+    /** Retourne la profondeur de réflexion du programme. */
+    get depth() {
+        return this.__depth;
+    }
+
 }
 
-module.exports.AI_Minimax = AI_Minimax;
+module.exports = AI_Minimax;
