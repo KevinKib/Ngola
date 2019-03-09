@@ -4,10 +4,7 @@ class AI_Minimax {
 
     constructor(angola) {
         this.__angola = angola;
-        this.__depth = 0;
-
-        this.__bestEvalValue = 1000;
-        this.__worstEvalValue = -1000;
+        this.__depth = 1;
     }
 
     /** Thinks and returns a move. */
@@ -16,7 +13,6 @@ class AI_Minimax {
         let bestChild = null;
         let bestEval = null;
 
-        // maximizing or minimizing player
         let maximizingPlayer = (this.__angola.joueurCourant == 1);
 
         for(let child of childNodes) {
@@ -24,14 +20,13 @@ class AI_Minimax {
             let angolaCopy = this.__angola.clone();
             angolaCopy.play(child);
 
-            let evaluation = this.minimax(angolaCopy, this.__depth, -this.__worstEvalValue, this.__bestEvalValue, maximizingPlayer);
+            let evaluation = this.minimax(angolaCopy, this.__depth, -this.worstEvalValue, this.bestEvalValue, maximizingPlayer);
             if (bestChild == null || evaluation > bestEval) {
                 bestChild = child;
                 bestEval = evaluation;
             }
         }
-        
-        Writer.log(bestChild);
+
         return bestChild;
     }
 
@@ -53,7 +48,7 @@ class AI_Minimax {
             res = this.evaluation(angola) * color;
         }
         else {
-            let value = -this.__worstEvalValue;
+            let value = -this.worstEvalValue;
 
             const childNodes = angola.listeLegalMoves;
             // Reorder child nodes
@@ -78,11 +73,10 @@ class AI_Minimax {
 
     /** Evalue une position donnée du jeu Angola. */
     evaluation(angola) {
-        let res = angola.etatZeroSum;
-        if (res == null) res = 0;
+        let res = 0;
 
-        if (res != 0) {
-            Writer.log('eval : '+res);
+        for (let c of angola.listeLegalMoves) {
+            
         }
 
         return res;
@@ -91,6 +85,16 @@ class AI_Minimax {
     /** Retourne la profondeur de réflexion du programme. */
     get depth() {
         return this.__depth;
+    }
+
+    /** Renvoie la meilleure valeur d'évaluation possible. */
+    get bestEvalValue() {
+        return 1000;
+    }
+
+    /** Renvoie la pire valeur d'évaluation possible. */
+    get worstEvalValue() {
+        return -1000;
     }
 
 }

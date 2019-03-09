@@ -19,9 +19,9 @@ class Plateau {
         let self = this;
         let plateau = new Plateau(angola);
 
-        plateau.__listeCases.forEach(function(c) {
+        for (let c of plateau.__listeCases) {
             c.nbBilles = self.getCase(c.nom).nbBilles;
-        });
+        }
 
         return plateau;
     }
@@ -30,10 +30,9 @@ class Plateau {
     equals(plateau) {
         let result = true;
 
-        for (let c in this.__listeCases) {
-            if (c.nbBilles != plateau.getCase(c.nom)) {
+        for (let c of this.__listeCases) {
+            if (c.nbBilles != plateau.getCase(c.nom).nbBilles) {
                 result = false;
-                break;
             }
         }
 
@@ -115,7 +114,6 @@ class Plateau {
      * @param {*} nom Nom de la case.
      */
     getCase(nom) {
-        
         let res = null;
 
         this.__listeCases.forEach(function(c) {
@@ -177,13 +175,6 @@ class Plateau {
             }
             Writer.log('');
         }
-    }
-
-    /** Clone l'état actuel du plateau. */
-    clone(angola) {
-        let clone = new Plateau(angola);
-        clone.__listeCases = this.__listeCases.slice(0);
-        return clone;
     }
 }
 

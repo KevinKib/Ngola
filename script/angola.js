@@ -48,6 +48,7 @@ class Angola {
         game.__plateau = this.__plateau.clone(game);
         game.__joueurCourant = this.__joueurCourant;
         game.__vainqueur = this.__vainqueur;
+        game.__boucleInfinie = this.__boucleInfinie;
 
         return game;
     }
@@ -120,17 +121,6 @@ class Angola {
 
         this.changerJoueurCourant();
         this.actualiserVainqueur();
-    }
-
-    /** Clone l'état du jeu. */
-    clone() {
-        let clone = new Angola();
-
-        clone.__joueurCourant = this.__joueurCourant;
-        clone.__vainqueur = this.__vainqueur;
-        clone.__plateau = this.__plateau.clone(clone);
-
-        return clone;
     }
 
     /** Vérifie si deux états de l'Angola sont égaux. */
