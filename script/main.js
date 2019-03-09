@@ -5,15 +5,8 @@ const Writer = require('./writer');
 
 class Main {
 
-    constructor() {
-
-    }
-
     static run() {
         this.test_runAI();
-        Writer.log('Pizza !!!!');
-        Writer.enableOutput = false;
-        Writer.log('Fromage !!!!!');  
     }
 
     static test_runAI() {   
@@ -25,7 +18,7 @@ class Main {
         let j2Score = 0;
 
         let maxGameLength = 100;
-        let maxNbGames = 100;
+        let maxNbGames = 1000;
 
         while (nbGames < maxNbGames) {
             let randomAI = new AI(angola);
@@ -44,44 +37,66 @@ class Main {
                     // Joueur 2
                     move = randomAI.play();
                 }
-
-                //console.log('Move : '+move);
                 angola.play(move);
-                
-                //angola.plateau.ascii_light();
-                //console.log('');
                 i++;
             }
             angola.actualiserVainqueur();
 
             switch(angola.etatZeroSum) {
                 case 1: 
-                    //console.log('Joueur 1 gagne.');
+                    //Writer.log('Joueur 1 gagne.');
                     j1Score++;
                     break;
                 case 0: 
-                    //console.log('Match nul.');
+                    //Writer.log('Match nul.');
                     j1Score += 0.5;
                     j2Score += 0.5;
                     break;
                 case -1: 
-                    //console.log('Joueur 2 gagne.');
+                    //Writer.log('Joueur 2 gagne.');
                     j2Score++;
                     break;
                 default:
-                    //console.log('Erreur ?');
+                    //Writer.log('Erreur ?');
                     j1Score += 0.5;
                     j2Score += 0.5;
             }
 
             nbGames++;
-            console.log(nbGames);
+            Writer.log(nbGames);
             angola.reset();
             
         }
 
-        console.log('J1Score : '+j1Score);
-        console.log('J2Score : '+j2Score);
+        Writer.log('J1Score : '+j1Score);
+        Writer.log('J2Score : '+j2Score);
+        
+    }
+
+    static test_clone() {   
+
+        let angola = new Angola();
+        let maxGameLength = 10;
+        let i = 0;
+        let randomAI = new AI(angola);
+
+        while(angola.peutJouer && i < maxGameLength) {
+            let move = randomAI.play();
+            angola.play(move);
+            i++;
+        }
+        angola.actualiserVainqueur();
+
+
+        // Tests
+        let clone = angola.clone();
+        if (angola.equals(clone)) {
+            console.log('verified !');
+        }
+        angola.play(clone.listeLegalMoves[0]);
+        if (angola.equals(clone)) {
+            console.log('error !');
+        }
         
     }
 

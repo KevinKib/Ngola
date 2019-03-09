@@ -1,4 +1,5 @@
 const Plateau = require('./plateau');
+const Writer = require('./writer');
 
 class Angola {
 
@@ -17,10 +18,11 @@ class Angola {
          * 2 pour J2 [noir]).
          * Pourra être aléatoire dans le futur. */
         this.__joueurCourant = 1;
-
         this.premierJoueurAleatoire();
 
+        /** Vainqueur de la partie. */
         this.__vainqueur = null;
+        
     }
 
 
@@ -31,7 +33,7 @@ class Angola {
 
     /** Démarre une partie du jeu. */
     run() {
-        console.log('Game run.');
+        Writer.log('Game run.');
 
         this.test_runAI();
     }
@@ -59,10 +61,10 @@ class Angola {
         let derniereCaseVide = c;
         let main = this.remplirMain(c);
 
+        let infiniteLoopTracker = 0;
+
         while (main > 0) {
             c = c.caseSuivante;
-
-            //console.log('Main : '+main);
 
             if (main == 1) {
                 if (c.estVide) {
@@ -72,7 +74,7 @@ class Angola {
                 else {
                     let captured = false;
 
-                    // on remplit la main
+                    // On remplit la main
                     main = this.deposerBille(c, main);
                     
                     let capt = this.capture(c, main, captured);
@@ -82,10 +84,12 @@ class Angola {
 
                     if (captured) {
                         c = derniereCaseVide;
+                        
+                        // Displays the game board
 
-                        console.log('');
-                        this.__plateau.ascii_light();
-                        console.log('');
+                        //Writer.log('');
+                        //this.__plateau.ascii_light();
+                        //Writer.log('');
                     }
                     else {
                         main = this.remplirMain(c, main);
@@ -95,6 +99,13 @@ class Angola {
             else {
                 // on enlève 1 de la main
                 main = this.deposerBille(c, main);
+            }
+
+            infiniteLoopTracker++;
+
+            if (infiniteLoopTracker >= 100000) {
+                this.plateau.ascii_light();
+                throw new Error('Endless loop detected.');
             }
         }
 
@@ -110,6 +121,13 @@ class Angola {
         clone.__plateau = this.__plateau.clone(clone);
 
         return clone;
+    }
+
+    /** Vérifie si deux états de l'Angola sont égaux. */
+    equals(angola) {
+        return  (this.__joueurCourant === angola.__joueurCourant) &&
+                (this.__vainqueur === angola.__vainqueur) &&
+                (this.__plateau.equals(angola.__plateau));
     }
 
     /** Renvoie une liste de tous les mouvements légaux à ce stade de la partie. */
@@ -190,7 +208,7 @@ class Angola {
         }
         
         // Test
-        // console.log(listeCases[0].nbBilles);
+        // Writer.log(listeCases[0].nbBilles);
     }
 
     /** Tente de capturer les billes ennemies sur la même colonne. */
@@ -263,6 +281,11 @@ class Angola {
         return 16;
     }
 
+    /** Nombre de boucles de la main pour laquelle le programme va arrêter d'exécuter le tour du joueur. */
+    get MAX_REPEATS() {
+        return 100000;
+    }
+
     /** Accesseur du plateau. */
     get plateau() {
         return this.__plateau;
@@ -278,7 +301,7 @@ class Angola {
         let currentCase = this.__plateau.getCase('g4');
 
         for (let i = 0; i < 100; i++) {
-            console.log(currentCase.nom);
+            Writer.log(currentCase.nom);
             currentCase = currentCase.caseSuivante;
         }
     }
@@ -287,34 +310,34 @@ class Angola {
     test_plateau_caseLiens() {
         let currentCase = this.__plateau.getCase('e2');
 
-        console.log('Case : '+currentCase.nom);
+        Writer.log('Case : '+currentCase.nom);
 
         if (currentCase.caseAttaquer != null) {
-            console.log('Case a attaquer : '+currentCase.caseAttaquer.nom);
+            Writer.log('Case a attaquer : '+currentCase.caseAttaquer.nom);
         }
         else {
-            console.log('Case a attaquer : null');
+            Writer.log('Case a attaquer : null');
         }
 
-        console.log('Case liee : '+currentCase.caseLiee.nom);
+        Writer.log('Case liee : '+currentCase.caseLiee.nom);
     }
 
     /** Test du jeu. */
     test_run1() {
         this.__plateau.ascii_light();
-        console.log('');
+        Writer.log('');
         this.play('a2');
-        console.log('');
+        Writer.log('');
         this.__plateau.ascii_light();
     }
 
     test_clone() {
         this.play(this.listeLegalMoves[0]);
-        console.log('');
+        Writer.log('');
         this.__plateau.ascii_light();
 
         let copy = this.clone();
-        console.log('');
+        Writer.log('');
         copy.plateau.ascii_light();
     }
 

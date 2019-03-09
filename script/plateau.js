@@ -1,4 +1,5 @@
 const Case = require('./case');
+const Writer = require('./writer');
 
 class Plateau {
 
@@ -23,6 +24,20 @@ class Plateau {
         });
 
         return plateau;
+    }
+
+    /** Vérifie si le plateau est égal à un autre plateau. */
+    equals(plateau) {
+        let result = true;
+
+        for (let c in this.__listeCases) {
+            if (c.nbBilles != plateau.getCase(c.nom)) {
+                result = false;
+                break;
+            }
+        }
+
+        return result;
     }
 
     /** Ajoute toutes les cases du plateau, avec leur nom, et initialise leur liens avec
@@ -132,19 +147,19 @@ class Plateau {
 
     /** Affiche le plateau sous un visuel console. */
     ascii() {
-        console.log('---------------------------------');
+        Writer.log('---------------------------------');
         let str = 'abcdefgh';
         for (let line = 1; line <= 4; line++) {
-            process.stdout.write('| ');
+            Writer.logOnLine('| ');
             for (let indexCol = 1; indexCol <= 8; indexCol++) {
                 
                 let col = str.charAt(indexCol-1);
                 let nom = col+line;
 
                 let c = this.getCase(nom);
-                process.stdout.write(c.nbBilles + ' | ');
+                Writer.logOnLine(c.nbBilles + ' | ');
             }
-            console.log('\n---------------------------------');
+            Writer.log('\n---------------------------------');
         }
     }
 
@@ -158,9 +173,9 @@ class Plateau {
                 let nom = col+line;
 
                 let c = this.getCase(nom);
-                process.stdout.write(c.nbBilles+' ');
+                Writer.logOnLine(c.nbBilles+' ');
             }
-            console.log('');
+            Writer.log('');
         }
     }
 

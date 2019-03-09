@@ -1,3 +1,5 @@
+const Writer = require('./writer');
+
 class AI_Minimax {
 
     constructor(angola) {
@@ -29,7 +31,7 @@ class AI_Minimax {
             }
         }
         
-        console.log(bestChild);
+        Writer.log(bestChild);
         return bestChild;
     }
 
@@ -56,8 +58,7 @@ class AI_Minimax {
             const childNodes = angola.listeLegalMoves;
             // Reorder child nodes
 
-            for(let i = 0; i < childNodes.length; i++) {
-                let child = childNodes[i];
+            for(let child in childNodes) {
 
                 let angolaCopy = this.__angola.clone();
                 angolaCopy.play(child);
@@ -81,7 +82,7 @@ class AI_Minimax {
         if (res == null) res = 0;
 
         if (res != 0) {
-            console.log('eval : '+res);
+            Writer.log('eval : '+res);
         }
 
         return res;

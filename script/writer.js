@@ -8,6 +8,12 @@ class Writer {
         }
     }
 
+    static logOnLine(message) {
+        if (Writer.outputEnabled === true) {
+            process.stdout.write(message);
+        }
+    }
+
     /** Mutateur de la variable d'affichage. */
     static set enableOutput(bool) {
         Writer.outputEnabled = bool;
