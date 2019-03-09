@@ -22,6 +22,9 @@ class Angola {
 
         /** Vainqueur de la partie. */
         this.__vainqueur = null;
+
+        /** Booléen détectant les boucles infinies. */
+        this.__boucleInfinie = false;
         
     }
 
@@ -52,6 +55,8 @@ class Angola {
     /** Exécute un tour de jeu. */
     play(nomCase) {
         
+        if (!this.enJeu) throw "Partie terminée.";
+
         let c = this.__plateau.getCase(nomCase);
         
         if (c == null) throw "Case inexistante.";
@@ -61,8 +66,11 @@ class Angola {
         let derniereCaseVide = c;
         let main = this.remplirMain(c);
 
-        let infiniteLoopTracker = 0;
+        /** Variable comptant le nombre de tours de boucles de la main.
+         * S'il est trop élevé, alors on est dans une boucle infinie. */
+        let endlessLoopTracker = 0;
 
+        // Boucle de la main
         while (main > 0) {
             c = c.caseSuivante;
 
@@ -101,15 +109,17 @@ class Angola {
                 main = this.deposerBille(c, main);
             }
 
-            infiniteLoopTracker++;
+            endlessLoopTracker++;
 
-            if (infiniteLoopTracker >= 100000) {
-                this.plateau.ascii_light();
-                throw new Error('Endless loop detected.');
+            if (endlessLoopTracker >= this.MAX_REPEATS) {
+                Writer.log('Boucle infinie.');
+                this.__boucleInfinie = true;
+                break;
             }
         }
 
         this.changerJoueurCourant();
+        this.actualiserVainqueur();
     }
 
     /** Clone l'état du jeu. */
@@ -147,6 +157,11 @@ class Angola {
     /** Renvoie true si le joueur courant possède encore des cases légales. */
     get peutJouer() {
         return this.listeLegalMoves.length > 0;
+    }
+
+    /** Informe si le jeu est toujours en cours ou non. */
+    get enJeu() {
+        return this.peutJouer && (this.__boucleInfinie === false);
     }
 
     /** Etat de la partie.
@@ -257,9 +272,12 @@ class Angola {
 
     /** Met a jour le vainqueur de la partie (l'état du jeu). */
     actualiserVainqueur() {
-        if (!this.peutJouer) {
+        if (this.__boucleInfinie === true) {
+            this.__vainqueur = null;
+        }
+        else if (!this.peutJouer) {
             switch(this.__joueurCourant) {
-                case 1: this.__vainqueur = 2;break;
+                case 1: this.__vainqueur = 2; break;
                 case 2: this.__vainqueur = 1; break;
                 default: this.__vainqueur = null;
             }
@@ -322,15 +340,7 @@ class Angola {
         Writer.log('Case liee : '+currentCase.caseLiee.nom);
     }
 
-    /** Test du jeu. */
-    test_run1() {
-        this.__plateau.ascii_light();
-        Writer.log('');
-        this.play('a2');
-        Writer.log('');
-        this.__plateau.ascii_light();
-    }
-
+    /** Test du clonage d'un plateau. */
     test_clone() {
         this.play(this.listeLegalMoves[0]);
         Writer.log('');

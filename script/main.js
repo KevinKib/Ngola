@@ -25,7 +25,7 @@ class Main {
             let smartAI = new AI_Minimax(angola);
             let i = 0;
 
-            while(angola.peutJouer && i < maxGameLength) {
+            while(angola.enJeu && i < maxGameLength) {
 
                 let move = null;
 
@@ -40,7 +40,6 @@ class Main {
                 angola.play(move);
                 i++;
             }
-            angola.actualiserVainqueur();
 
             switch(angola.etatZeroSum) {
                 case 1: 
