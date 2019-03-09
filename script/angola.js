@@ -93,15 +93,10 @@ class Angola {
 
                     if (captured) {
                         c = derniereCaseVide;
-                        
-                        // Displays the game board
-
-                        //Writer.log('');
-                        //this.__plateau.ascii_light();
-                        //Writer.log('');
                     }
                     else {
                         main = this.remplirMain(c, main);
+                        derniereCaseVide = c;
                     }
                 }
             }
@@ -109,6 +104,16 @@ class Angola {
                 // on enlève 1 de la main
                 main = this.deposerBille(c, main);
             }
+
+            // Displays the game board
+
+            /*
+            Writer.log('');
+            this.__plateau.ascii_light();
+            Writer.log('Main :'+main);
+            Writer.log('Case : '+c.nom);
+            Writer.log('DerniereVide : '+derniereCaseVide.nom);
+            */
 
             endlessLoopTracker++;
 
@@ -119,7 +124,6 @@ class Angola {
             }
         }
 
-        
         this.changerJoueurCourant();
         this.actualiserVainqueur();
         
@@ -209,8 +213,8 @@ class Angola {
         })
 
         // Pour toutes les 32 billes, on place aléatoirement chaque bille dans une des 16 cases du plateau.
-        for (let i = 0; i < this.NB_CASES_PAR_JOUEUR; i++) {
-            let indexCase = Math.floor((Math.random() * 15) + 0);
+        for (let i = 0; i < this.NB_BILLES_PAR_JOUEUR; i++) {
+            let indexCase = Math.floor((Math.random() * (this.NB_CASES_PAR_JOUEUR-1) + 0));
             listeCases[indexCase].nbBilles++;
         }
         
@@ -289,6 +293,11 @@ class Angola {
     /** Nombre de cases du jeu, par joueur. */
     get NB_CASES_PAR_JOUEUR() {
         return 16;
+    }
+
+    /** Nombre de billes données à chaque joueur en début de partie. */
+    get NB_BILLES_PAR_JOUEUR() {
+        return 32;
     }
 
     /** Nombre de boucles de la main pour laquelle le programme va arrêter d'exécuter le tour du joueur. */

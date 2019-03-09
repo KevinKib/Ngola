@@ -2,9 +2,9 @@ const Writer = require('./writer');
 
 class AI_Minimax {
 
-    constructor(angola) {
+    constructor(angola, depth) {
         this.__angola = angola;
-        this.__depth = 0;
+        this.__depth = depth;
     }
 
     /** Thinks and returns a move. */
@@ -19,15 +19,17 @@ class AI_Minimax {
 
             let angolaCopy = this.__angola.clone();
             angolaCopy.play(child);
-            //console.log("Maximizing : "+maximizingPlayer);
-            
+
             let evaluation = this.minimax(angolaCopy, this.__depth, -this.worstEvalValue, this.bestEvalValue, maximizingPlayer);
+            
+            Writer.log('Evaluation of '+child+' : '+evaluation);
             if (bestChild == null || evaluation > bestEval) {
                 bestChild = child;
                 bestEval = evaluation;
             }
         }
 
+        Writer.log('Move played : '+bestChild+'\n');
         return bestChild;
     }
 
@@ -49,14 +51,13 @@ class AI_Minimax {
             res = this.evaluation(angola) * color;
         }
         else {
-            let value = -this.worstEvalValue;
-
             const childNodes = angola.listeLegalMoves;
             // Reorder child nodes
+            let value = -this.worstEvalValue;
 
             for(let child of childNodes) {
 
-                let angolaCopy = this.__angola.clone();
+                let angolaCopy = angola.clone();
                 angolaCopy.play(child);
 
                 value = Math.max(value, -this.minimax(angolaCopy, depth-1, -beta, -alpha, !maximizingPlayer));

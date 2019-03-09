@@ -18,28 +18,34 @@ class Main {
         let j2Score = 0;
 
         let maxGameLength = 100;
-        let maxNbGames = 100;
+
+        let maxNbGames = 1;
 
         while (nbGames < maxNbGames) {
             let randomAI = new AI(angola);
-            let smartAI = new AI_Minimax(angola);
+            let smartAI_0 = new AI_Minimax(angola, 0);
+            let smartAI_1 = new AI_Minimax(angola, 1);
             let i = 0;
 
-            //angola.plateau.ascii_light();
+            angola.plateau.ascii_light();
             while(angola.enJeu && i < maxGameLength) {
 
                 let move = null;
 
+                Writer.enableOutput = false;
                 if (angola.joueurCourant === 1)  {
-                    move = smartAI.play();
+                    move = smartAI_0.play();
+                    console.log('AI_1 | Move played : '+move+'\n');
                 }
                 else {
-                    move = randomAI.play();
+                    move = smartAI_0.play();
+                    console.log('AI_2 | Move played : '+move+'\n');
                 }
+                Writer.enableOutput = true;
 
                 angola.play(move);
-                //angola.plateau.ascii_light();
-                //console.log('');
+                angola.plateau.ascii_light();
+                console.log('');
                 i++;
             }
 
