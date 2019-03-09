@@ -1,6 +1,7 @@
 const Angola = require('./angola').Angola;
-const AI = require('./ai').AI;
-const AI_Minimax = require('./ai_minimax').AI_Minimax;
+const AI = require('./ai');
+const AI_Minimax = require('./ai_minimax');
+const Writer = require('./writer');
 
 class Main {
 
@@ -10,9 +11,12 @@ class Main {
 
     static run() {
         this.test_runAI();
+        Writer.log('Pizza !!!!');
+        Writer.enableOutput = false;
+        Writer.log('Fromage !!!!!');  
     }
 
-    static test_runAI() {
+    static test_runAI() {   
 
         let angola = new Angola();
 
@@ -34,7 +38,7 @@ class Main {
 
                 if (i % 2 == 0) {
                     // Joueur 1
-                    move = smartAI.play();
+                    move = randomAI.play();
                 }
                 else {
                     // Joueur 2

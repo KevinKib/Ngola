@@ -2,7 +2,7 @@ class AI_Minimax {
 
     constructor(angola) {
         this.__angola = angola;
-        this.__depth = 1;
+        this.__depth = 0;
 
         this.__bestEvalValue = 1000;
         this.__worstEvalValue = -1000;
@@ -15,21 +15,21 @@ class AI_Minimax {
         let bestEval = null;
 
         // maximizing or minimizing player
-        let maximizingPlayer = this.__angola.joueurCourant == 1;
-
+        let maximizingPlayer = (this.__angola.joueurCourant == 1);
 
         for(let child of childNodes) {
 
             let angolaCopy = this.__angola.clone();
             angolaCopy.play(child);
 
-            let evaluation = this.minimax(angolaCopy, this.__depth, -10000, 10000, maximizingPlayer);
+            let evaluation = this.minimax(angolaCopy, this.__depth, -this.__worstEvalValue, this.__bestEvalValue, maximizingPlayer);
             if (bestChild == null || evaluation > bestEval) {
                 bestChild = child;
                 bestEval = evaluation;
             }
         }
         
+        console.log(bestChild);
         return bestChild;
     }
 
@@ -51,7 +51,7 @@ class AI_Minimax {
             res = this.evaluation(angola) * color;
         }
         else {
-            let value = -10000;
+            let value = -this.__worstEvalValue;
 
             const childNodes = angola.listeLegalMoves;
             // Reorder child nodes
