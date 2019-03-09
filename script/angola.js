@@ -60,7 +60,7 @@ class Angola {
 
         let c = this.__plateau.getCase(nomCase);
         
-        if (c == null) throw "Case inexistante.";
+        if (c == null) throw new Error("Case inexistante.");
         if (c.joueur != this.__joueurCourant) throw "Case appartenant au joueur adverse.";
         if (!c.peutJouer) throw "La case n'a pas assez de billes pour être jouée.";
 
@@ -119,8 +119,10 @@ class Angola {
             }
         }
 
+        
         this.changerJoueurCourant();
         this.actualiserVainqueur();
+        
     }
 
     /** Vérifie si deux états de l'Angola sont égaux. */

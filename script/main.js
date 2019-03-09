@@ -34,11 +34,12 @@ class Main {
                     move = smartAI.play();
                 }
                 else {
-                    move = smartAI.play();
+                    move = randomAI.play();
                 }
 
                 angola.play(move);
                 //angola.plateau.ascii_light();
+                //console.log('');
                 i++;
             }
 
