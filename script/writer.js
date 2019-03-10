@@ -8,6 +8,7 @@ class Writer {
         }
     }
 
+    /** Méthode permettant d'écrire dans la console sans sauter de ligne, si l'affichage est activé. */
     static logOnLine(message) {
         if (Writer.outputEnabled === true) {
             process.stdout.write(message);

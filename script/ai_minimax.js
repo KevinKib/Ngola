@@ -20,7 +20,7 @@ class AI_Minimax {
             let angolaCopy = this.__angola.clone();
             angolaCopy.play(child);
 
-            let evaluation = this.minimax(angolaCopy, this.__depth, -this.worstEvalValue, this.bestEvalValue, maximizingPlayer);
+            let evaluation = this.minimax(angolaCopy, this.__depth, this.worstEvalValue, this.bestEvalValue, maximizingPlayer);
             
             Writer.log('Evaluation of '+child+' : '+evaluation);
             if (bestChild == null || evaluation > bestEval) {
@@ -53,7 +53,7 @@ class AI_Minimax {
         else {
             const childNodes = angola.listeLegalMoves;
             // Reorder child nodes
-            let value = -this.worstEvalValue;
+            let value = this.worstEvalValue;
 
             for(let child of childNodes) {
 
