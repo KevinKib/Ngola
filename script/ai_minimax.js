@@ -38,7 +38,7 @@ class AI_Minimax {
     minimax(angola, depth, alpha, beta, maximizingPlayer) {
         let res = null;
         
-        if (depth == 0 || angola.etatZeroSum != null) {
+        if (depth == 0 || !angola.enJeu) {
             // heuristique
             let color;
             if (maximizingPlayer) {
@@ -64,9 +64,13 @@ class AI_Minimax {
 
                 /*
                 let space = "";
-                for (let i = 0; i < depth; i++) {
+                for (let i = 0; i < this.__depth; i++) {
                     space += '  ';
                 }
+                for (let i = 0; i < depth; i++) {
+                    space = space.substring(0, space.length-2);
+                }
+                
 
                 Writer.log(space+depth+' | '+child+' : '+value);
                 */

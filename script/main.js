@@ -19,7 +19,7 @@ class Main {
 
         let maxGameLength = 1000;
 
-        let maxNbGames = 1000;
+        let maxNbGames = 100;
 
         while (nbGames < maxNbGames) {
 
@@ -28,6 +28,14 @@ class Main {
             let smartAI_1 = new AI_Minimax(angola, 2);
             let i = 0;
 
+            // Player settings
+            let player_1 = smartAI_1;
+            let player_2 = smartAI_0;
+
+            let p1_gameOutput = false;
+            let p2_gameOutput = false;
+
+            // Game
             angola.plateau.ascii_light();
             while(angola.enJeu && i < maxGameLength) {
                 Writer.enableOutput = false;
@@ -35,17 +43,16 @@ class Main {
                 let move = null;
 
                 if (angola.joueurCourant === 1)  {
-                    //Writer.enableOutput = true;
-                    move = smartAI_0.play();
+                    Writer.enableOutput = p1_gameOutput;
+                    move = player_1.play();
                     Writer.log('AI_1 | Move played : '+move+'\n');
                 }
                 else {
-                    //Writer.enableOutput = true;
-                    move = smartAI_1.play();
+                    Writer.enableOutput = p2_gameOutput;
+                    move = player_2.play();
                     Writer.log('AI_2 | Move played : '+move+'\n');
                 }
 
-                //
                 angola.play(move);
                 angola.plateau.ascii_light();
                 Writer.log('');

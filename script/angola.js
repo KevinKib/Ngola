@@ -56,7 +56,7 @@ class Angola {
     /** Exécute un tour de jeu. */
     play(nomCase) {
         
-        if (!this.enJeu) throw "Partie terminée.";
+        if (!this.enJeu) throw new Error("Partie terminée.");
 
         let c = this.__plateau.getCase(nomCase);
         
