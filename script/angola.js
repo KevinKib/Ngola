@@ -18,7 +18,7 @@ class Angola {
          * 2 pour J2 [noir]).
          * Pourra être aléatoire dans le futur. */
         this.__joueurCourant = 1;
-        this.premierJoueurAleatoire();
+        //this.premierJoueurAleatoire();
 
         /** Vainqueur de la partie. */
         this.__vainqueur = null;

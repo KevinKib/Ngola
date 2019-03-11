@@ -1,0 +1,13 @@
+* Lors
+
+I: Introduction
+ - Règles du jeu
+ - Conventions d'écriture
+
+II: Création du modèle du jeu
+
+III: Création des intelligences artificielles
+
+
+Etude du jeu à partir d'une position aléatoire
+Deadlock, principe des positions bloquées

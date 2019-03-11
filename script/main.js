@@ -17,9 +17,9 @@ class Main {
         let j1Score = 0;
         let j2Score = 0;
 
-        let maxGameLength = 100;
+        let maxGameLength = 1000;
 
-        let maxNbGames = 1;
+        let maxNbGames = 1000;
 
         while (nbGames < maxNbGames) {
 
@@ -35,13 +35,12 @@ class Main {
                 let move = null;
 
                 if (angola.joueurCourant === 1)  {
+                    //Writer.enableOutput = true;
                     move = smartAI_0.play();
-
-                    Writer.enableOutput = true;
                     Writer.log('AI_1 | Move played : '+move+'\n');
                 }
                 else {
-                    Writer.enableOutput = true;
+                    //Writer.enableOutput = true;
                     move = smartAI_1.play();
                     Writer.log('AI_2 | Move played : '+move+'\n');
                 }

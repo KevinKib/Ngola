@@ -61,6 +61,17 @@ class AI_Minimax {
                 angolaCopy.play(child);
 
                 value = Math.max(value, -this.minimax(angolaCopy, depth-1, -beta, -alpha, !maximizingPlayer));
+
+                /*
+                let space = "";
+                for (let i = 0; i < depth; i++) {
+                    space += '  ';
+                }
+
+                Writer.log(space+depth+' | '+child+' : '+value);
+                */
+                
+
                 alpha = Math.max(alpha, value);
                 if (alpha >= beta) {
                     break;
