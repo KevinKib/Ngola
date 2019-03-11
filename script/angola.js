@@ -5,7 +5,6 @@ class Angola {
 
     constructor() {
         this.reset();
-        this.initialiserBillesPlateau();
     }
 
     /** Réinitialise le jeu. */
@@ -25,6 +24,8 @@ class Angola {
 
         /** Booléen détectant les boucles infinies. */
         this.__boucleInfinie = false;
+
+        this.initialiserBillesPlateau();
         
     }
 
@@ -195,11 +196,16 @@ class Angola {
 
     /** Initialise le nombre de billes du plateau. */
     initialiserBillesPlateau() {
+        this.initialiserBillesPlateauClassique();
+    }
+
+    /** Initialise les billes du plateau de manière aléatoire. */
+    initialiserAleatoirement() {
         this.initialiserBillesPlateauAleatoirement(1);
         this.initialiserBillesPlateauAleatoirement(2);
     }
 
-    /** Initialise le nombre de billes du plateau, aléatoirement. 
+    /** Initialise le nombre de billes du plateau, aléatoirement; par index de joueur. 
      * 32 billes. On place toutes les cases du plateau dans une liste, on remet le nombre de billes à zéro,
      * et on place aléatoirement chaque bille dans une de ces cases.
      */
@@ -220,6 +226,21 @@ class Angola {
         
         // Test
         // Writer.log(listeCases[0].nbBilles);
+    }
+
+    initialiserBillesPlateauClassique() {
+        let letters = "abcdefgh";
+
+        for (let i = 1; i <= 4; i++) {
+            for (let c = 0; c < 8; c++) {
+                let char = letters.charAt(c);
+
+                let billes = 0;
+                if ((c + i) % 2 == 0) billes = 4;
+
+                this.plateau.getCase(char+i).nbBilles = billes;
+            }
+        }
     }
 
     /** Tente de capturer les billes ennemies sur la même colonne. */

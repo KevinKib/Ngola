@@ -19,21 +19,23 @@ class Main {
 
         let maxGameLength = 1000;
 
-        let maxNbGames = 100;
+        let maxNbGames = 1;
 
         while (nbGames < maxNbGames) {
 
             let randomAI = new AI(angola);
             let smartAI_0 = new AI_Minimax(angola, 0);
-            let smartAI_1 = new AI_Minimax(angola, 2);
+            let smartAI_1 = new AI_Minimax(angola, 1);
+            let smartAI_2 = new AI_Minimax(angola, 2);
+            let smartAI_3 = new AI_Minimax(angola, 3);
             let i = 0;
 
             // Player settings
-            let player_1 = smartAI_1;
+            let player_1 = smartAI_3;
             let player_2 = smartAI_0;
 
-            let p1_gameOutput = false;
-            let p2_gameOutput = false;
+            let p1_gameOutput = true;
+            let p2_gameOutput = true;
 
             // Game
             angola.plateau.ascii_light();
