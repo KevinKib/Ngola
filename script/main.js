@@ -17,23 +17,28 @@ class Main {
         let j1Score = 0;
         let j2Score = 0;
 
+        // Game parameters
         let maxGameLength = 1000;
+        let maxNbGames = 1;
 
-        let maxNbGames = 100;
+        // AI settings
+        let randomAI = new AI(angola);
+        let smartAI_0 = new AI_Minimax(angola, 1);
+        let smartAI_1 = new AI_Minimax(angola, 1);
+        
+
+        // Player settings
+        let player_1 = smartAI_1;
+        let player_2 = smartAI_1;
+
+        let p1_gameOutput = false;
+        let p2_gameOutput = false;
 
         while (nbGames < maxNbGames) {
 
-            let randomAI = new AI(angola);
-            let smartAI_0 = new AI_Minimax(angola, 0);
-            let smartAI_1 = new AI_Minimax(angola, 2);
+            // if (nbGames % 1000 == 0) console.log(nbGames);
+
             let i = 0;
-
-            // Player settings
-            let player_1 = smartAI_1;
-            let player_2 = smartAI_0;
-
-            let p1_gameOutput = false;
-            let p2_gameOutput = false;
 
             // Game
             angola.plateau.ascii_light();
@@ -52,6 +57,8 @@ class Main {
                     move = player_2.play();
                     Writer.log('AI_2 | Move played : '+move+'\n');
                 }
+
+                Writer.enableOutput = true;
 
                 angola.play(move);
                 angola.plateau.ascii_light();
@@ -81,13 +88,19 @@ class Main {
 
             nbGames++;
             angola.reset();
-            
+
         }
 
         Writer.enableOutput = true;
         Writer.log('J1Score : '+j1Score);
         Writer.log('J2Score : '+j2Score);
+
+        /*
+        console.log(player_1.nbTours + '|' + player_1.nbLegalMoves);
+        console.log(player_2.nbTours + '|' + player_2.nbLegalMoves);
+        */
         
+
     }
 
     static test_clone() {   

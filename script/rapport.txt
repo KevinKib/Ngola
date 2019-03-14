@@ -11,3 +11,27 @@ III: Création des intelligences artificielles
 
 Etude du jeu à partir d'une position aléatoire
 Deadlock, principe des positions bloquées
+
+
+Stats :
+100 000 parties
+300 007 tours pour J1
+200 007 tours pour J2
+3 700 056 coups légaux pour J1
+0 500 019 coups légaux pour J2
+
+- Nombre moyen de coups légaux par tour :
+12,33 pour le joueur 1;
+02,50 pour le joueur 2;
+
+- Nombre moyen de tours par partie :
+5 au total
+3 pour le joueur 1
+2 pour le joueur 2
+
+- Nombre total de positions possibles :
+    16^32 * 2 = 6,8056 x 10^38
+- 
+
+
+

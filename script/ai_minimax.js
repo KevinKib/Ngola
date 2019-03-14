@@ -5,10 +5,17 @@ class AI_Minimax {
     constructor(angola, depth) {
         this.__angola = angola;
         this.__depth = depth;
+
+        // Statistics
+        this.nbLegalMoves = 0;
+        this.nbTours = 0;
+
     }
 
     /** Thinks and returns a move. */
     play() {
+        this.nbTours++;
+
         let childNodes = this.__angola.listeLegalMoves;
         let bestChild = null;
         let bestEval = null;
@@ -16,6 +23,7 @@ class AI_Minimax {
         let maximizingPlayer = (this.__angola.joueurCourant == 1);
 
         for(let child of childNodes) {
+            this.nbLegalMoves++;
 
             let angolaCopy = this.__angola.clone();
             angolaCopy.play(child);
@@ -62,7 +70,7 @@ class AI_Minimax {
 
                 value = Math.max(value, -this.minimax(angolaCopy, depth-1, -beta, -alpha, !maximizingPlayer));
 
-                /*
+                
                 let space = "";
                 for (let i = 0; i < this.__depth; i++) {
                     space += '  ';
@@ -71,9 +79,8 @@ class AI_Minimax {
                     space = space.substring(0, space.length-2);
                 }
                 
-
                 Writer.log(space+depth+' | '+child+' : '+value);
-                */
+                
                 
 
                 alpha = Math.max(alpha, value);
