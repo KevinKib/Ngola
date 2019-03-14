@@ -23,8 +23,10 @@ class Main {
 
         // AI settings
         let randomAI = new AI(angola);
-        let smartAI_0 = new AI_Minimax(angola, 1);
+        let smartAI_0 = new AI_Minimax(angola, 0);
         let smartAI_1 = new AI_Minimax(angola, 1);
+        let smartAI_2 = new AI_Minimax(angola, 2);
+        let smartAI_3 = new AI_Minimax(angola, 3);
         
 
         // Player settings
