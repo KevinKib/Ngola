@@ -44,6 +44,7 @@ class Main {
 
             // Game
             angola.plateau.ascii_light();
+            console.log('');
             while(angola.enJeu && i < maxGameLength) {
                 Writer.enableOutput = false;
                 
