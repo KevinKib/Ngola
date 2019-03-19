@@ -37,13 +37,16 @@ class Main {
         let p2_gameOutput = false;
 
         while (nbGames < maxNbGames) {
-
-            // if (nbGames % 1000 == 0) console.log(nbGames);
-
             let i = 0;
 
             // Game
+            console.log('Plateau initialisé : '+ngola.estInitialise);
             ngola.plateau.ascii_light();
+            ngola.initialiser(player_1.initBoard(1));
+            ngola.initialiser(player_2.initBoard(2));
+            ngola.plateau.ascii_light();
+            console.log('Plateau initialisé : '+ngola.estInitialise);
+
             console.log('');
             while(ngola.enJeu && i < maxGameLength) {
                 Writer.enableOutput = false;
@@ -129,10 +132,8 @@ class Main {
         ngola.play(clone.listeLegalMoves[0]);
         if (ngola.equals(clone)) {
             console.log('error !');
-        }
-        
+        }   
     }
-
 }
 
 module.exports.Main = Main;

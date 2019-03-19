@@ -1,9 +1,10 @@
 const Writer = require('./writer');
+const AI = require('./ai');
 
-class AI_Minimax {
+class AI_Minimax extends AI {
 
     constructor(ngola, depth) {
-        this.__ngola = ngola;
+        super(ngola);
         this.__depth = depth;
 
         // Statistics

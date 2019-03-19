@@ -17,7 +17,6 @@ class Ngola {
          * 2 pour J2 [noir]).
          * Pourra être aléatoire dans le futur. */
         this.__joueurCourant = 1;
-        //this.premierJoueurAleatoire();
 
         /** Vainqueur de la partie. */
         this.__vainqueur = null;
@@ -25,7 +24,9 @@ class Ngola {
         /** Booléen détectant les boucles infinies. */
         this.__boucleInfinie = false;
 
-        this.initialiserBillesPlateau();
+        /** Booléen indiquant si le plateau a été initialisé ou non. */
+        this.__estInitialiseJ1 = false;
+        this.__estInitialiseJ2 = false;
         
     }
 
@@ -193,6 +194,12 @@ class Ngola {
     // METHODES PRIVEES
     // ----------------
 
+    /** Permet d'initialiser le plateau, à partir d'une liste de cases. */
+    initialiser(listeCases) {
+        this.__plateau.setCases(listeCases);
+        if (listeCases[0].joueur == 1) this.__estInitialiseJ1 = true;
+        else if (listeCases[0].joueur == 2) this.__estInitialiseJ2 = true;
+    }
 
     /** Initialise le nombre de billes du plateau. */
     initialiserBillesPlateau() {
@@ -201,15 +208,15 @@ class Ngola {
 
     /** Initialise les billes du plateau de manière aléatoire. */
     initialiserAleatoirement() {
-        this.initialiserBillesPlateauAleatoirement(1);
-        this.initialiserBillesPlateauAleatoirement(2);
+        this.initialiserAleatoirementIndex(1);
+        this.initialiserAleatoirementIndex(2);
     }
 
     /** Initialise le nombre de billes du plateau, aléatoirement; par index de joueur. 
      * 32 billes. On place toutes les cases du plateau dans une liste, on remet le nombre de billes à zéro,
      * et on place aléatoirement chaque bille dans une de ces cases.
      */
-    initialiserBillesPlateauAleatoirement(indexJoueur) {
+    initialiserAleatoirementIndex(indexJoueur) {
 
         let listeCases = this.__plateau.getListeCases(indexJoueur);
 
@@ -329,6 +336,11 @@ class Ngola {
     /** Accesseur du plateau. */
     get plateau() {
         return this.__plateau;
+    }
+
+    /** Permet de vérifier si le plateau est initialisé. */
+    get estInitialise() {
+        return this.__estInitialiseJ1 && this.__estInitialiseJ2;
     }
     
     /** -----

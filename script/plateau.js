@@ -143,6 +143,13 @@ class Plateau {
         return listeCasesJoueur;
     }
 
+    /** Définit une moitié de plateau à partir d'une liste de cases et d'un index. */
+    setCases(listeCases) {
+        for (let c of listeCases) {
+            this.getCase(c.nom).nbBilles = c.nbBilles;
+        }
+    }
+
     /** Affiche le plateau sous un visuel console. */
     ascii() {
         Writer.log('---------------------------------');
