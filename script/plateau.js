@@ -3,10 +3,10 @@ const Writer = require('./writer');
 
 class Plateau {
 
-    constructor(angola) {
+    constructor(ngola) {
 
         // Jeu
-        this.__angola = angola;
+        this.__ngola = ngola;
         
         // Liste des cases du plateau
         this.__listeCases = [];
@@ -15,9 +15,9 @@ class Plateau {
     }
 
     /** Clone le plateau. */
-    clone(angola) {
+    clone(ngola) {
         let self = this;
-        let plateau = new Plateau(angola);
+        let plateau = new Plateau(ngola);
 
         for (let c of plateau.__listeCases) {
             c.nbBilles = self.getCase(c.nom).nbBilles;

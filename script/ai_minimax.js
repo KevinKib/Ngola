@@ -2,8 +2,8 @@ const Writer = require('./writer');
 
 class AI_Minimax {
 
-    constructor(angola, depth) {
-        this.__angola = angola;
+    constructor(ngola, depth) {
+        this.__ngola = ngola;
         this.__depth = depth;
 
         // Statistics
@@ -16,19 +16,19 @@ class AI_Minimax {
     play() {
         this.nbTours++;
 
-        let childNodes = this.__angola.listeLegalMoves;
+        let childNodes = this.__ngola.listeLegalMoves;
         let bestChild = null;
         let bestEval = null;
 
-        let maximizingPlayer = (this.__angola.joueurCourant == 1);
+        let maximizingPlayer = (this.__ngola.joueurCourant == 1);
 
         for(let child of childNodes) {
             this.nbLegalMoves++;
 
-            let angolaCopy = this.__angola.clone();
-            angolaCopy.play(child);
+            let ngolaCopy = this.__ngola.clone();
+            ngolaCopy.play(child);
 
-            let evaluation = this.minimax(angolaCopy, this.__depth, this.worstEvalValue, this.bestEvalValue, maximizingPlayer);
+            let evaluation = this.minimax(ngolaCopy, this.__depth, this.worstEvalValue, this.bestEvalValue, maximizingPlayer);
             
             Writer.log('Evaluation of '+child+' : '+evaluation);
             if (bestChild == null || evaluation > bestEval) {
@@ -43,10 +43,10 @@ class AI_Minimax {
 
     /** Applique l'algorithme Minimax a partir d'un coup;
      * renvoie une évaluation globale. */
-    minimax(angola, depth, alpha, beta, maximizingPlayer) {
+    minimax(ngola, depth, alpha, beta, maximizingPlayer) {
         let res = null;
         
-        if (depth == 0 || !angola.enJeu) {
+        if (depth == 0 || !ngola.enJeu) {
             // heuristique
             let color;
             if (maximizingPlayer) {
@@ -56,19 +56,19 @@ class AI_Minimax {
                 color = -1;
             }
 
-            res = this.evaluation(angola) * color;
+            res = this.evaluation(ngola) * color;
         }
         else {
-            const childNodes = angola.listeLegalMoves;
+            const childNodes = ngola.listeLegalMoves;
             // Reorder child nodes
             let value = this.worstEvalValue;
 
             for(let child of childNodes) {
 
-                let angolaCopy = angola.clone();
-                angolaCopy.play(child);
+                let ngolaCopy = ngola.clone();
+                ngolaCopy.play(child);
 
-                value = Math.max(value, -this.minimax(angolaCopy, depth-1, -beta, -alpha, !maximizingPlayer));
+                value = Math.max(value, -this.minimax(ngolaCopy, depth-1, -beta, -alpha, !maximizingPlayer));
 
                 
                 let space = "";
@@ -95,17 +95,17 @@ class AI_Minimax {
         return res;
     }
 
-    /** Evalue une position donnée du jeu Angola. */
-    evaluation(angola) {
+    /** Evalue une position donnée du jeu Ngola. */
+    evaluation(ngola) {
         let res = 0;
 
         let nbBilles_J1 = 0;
         let nbBilles_J2 = 0;
 
-        for (let c of angola.plateau.getListeCases(1)) {
+        for (let c of ngola.plateau.getListeCases(1)) {
             nbBilles_J1 += c.nbBilles;
         }
-        for (let c of angola.plateau.getListeCases(2)) {
+        for (let c of ngola.plateau.getListeCases(2)) {
             nbBilles_J2 += c.nbBilles;
         }
 

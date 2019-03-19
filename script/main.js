@@ -1,4 +1,4 @@
-const Angola = require('./angola').Angola;
+const Ngola = require('./ngola').Ngola;
 const AI = require('./ai');
 const AI_Minimax = require('./ai_minimax');
 const Writer = require('./writer');
@@ -11,7 +11,7 @@ class Main {
 
     static test_runAI() {   
 
-        let angola = new Angola();
+        let ngola = new Ngola();
 
         let nbGames = 0;
         let j1Score = 0;
@@ -22,11 +22,11 @@ class Main {
         let maxNbGames = 1;
 
         // AI settings
-        let randomAI = new AI(angola);
-        let smartAI_0 = new AI_Minimax(angola, 0);
-        let smartAI_1 = new AI_Minimax(angola, 1);
-        let smartAI_2 = new AI_Minimax(angola, 2);
-        let smartAI_3 = new AI_Minimax(angola, 3);
+        let randomAI = new AI(ngola);
+        let smartAI_0 = new AI_Minimax(ngola, 0);
+        let smartAI_1 = new AI_Minimax(ngola, 1);
+        let smartAI_2 = new AI_Minimax(ngola, 2);
+        let smartAI_3 = new AI_Minimax(ngola, 3);
         
 
         // Player settings
@@ -43,14 +43,14 @@ class Main {
             let i = 0;
 
             // Game
-            angola.plateau.ascii_light();
+            ngola.plateau.ascii_light();
             console.log('');
-            while(angola.enJeu && i < maxGameLength) {
+            while(ngola.enJeu && i < maxGameLength) {
                 Writer.enableOutput = false;
                 
                 let move = null;
 
-                if (angola.joueurCourant === 1)  {
+                if (ngola.joueurCourant === 1)  {
                     Writer.enableOutput = p1_gameOutput;
                     move = player_1.play();
                     Writer.log('AI_1 | Move played : '+move+'\n');
@@ -63,13 +63,13 @@ class Main {
 
                 Writer.enableOutput = true;
 
-                angola.play(move);
-                angola.plateau.ascii_light();
+                ngola.play(move);
+                ngola.plateau.ascii_light();
                 Writer.log('');
                 i++;
             }
 
-            switch(angola.etatZeroSum) {
+            switch(ngola.etatZeroSum) {
                 case 1: 
                     //Writer.log('Joueur 1 gagne.');
                     j1Score++;
@@ -90,7 +90,7 @@ class Main {
             }
 
             nbGames++;
-            angola.reset();
+            ngola.reset();
 
         }
 
@@ -108,26 +108,26 @@ class Main {
 
     static test_clone() {   
 
-        let angola = new Angola();
+        let ngola = new Ngola();
         let maxGameLength = 10;
         let i = 0;
-        let randomAI = new AI(angola);
+        let randomAI = new AI(ngola);
 
-        while(angola.peutJouer && i < maxGameLength) {
+        while(ngola.peutJouer && i < maxGameLength) {
             let move = randomAI.play();
-            angola.play(move);
+            ngola.play(move);
             i++;
         }
-        angola.actualiserVainqueur();
+        ngola.actualiserVainqueur();
 
 
         // Tests
-        let clone = angola.clone();
-        if (angola.equals(clone)) {
+        let clone = ngola.clone();
+        if (ngola.equals(clone)) {
             console.log('verified !');
         }
-        angola.play(clone.listeLegalMoves[0]);
-        if (angola.equals(clone)) {
+        ngola.play(clone.listeLegalMoves[0]);
+        if (ngola.equals(clone)) {
             console.log('error !');
         }
         

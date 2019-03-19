@@ -1,7 +1,7 @@
 const Plateau = require('./plateau');
 const Writer = require('./writer');
 
-class Angola {
+class Ngola {
 
     constructor() {
         this.reset();
@@ -44,7 +44,7 @@ class Angola {
 
     /** Clone le jeu. */
     clone() {
-        let game = new Angola();
+        let game = new Ngola();
 
         game.__plateau = this.__plateau.clone(game);
         game.__joueurCourant = this.__joueurCourant;
@@ -130,11 +130,11 @@ class Angola {
         
     }
 
-    /** Vérifie si deux états de l'Angola sont égaux. */
-    equals(angola) {
-        return  (this.__joueurCourant === angola.__joueurCourant) &&
-                (this.__vainqueur === angola.__vainqueur) &&
-                (this.__plateau.equals(angola.__plateau));
+    /** Vérifie si deux états du Ngola sont égaux. */
+    equals(ngola) {
+        return  (this.__joueurCourant === ngola.__joueurCourant) &&
+                (this.__vainqueur === ngola.__vainqueur) &&
+                (this.__plateau.equals(ngola.__plateau));
     }
 
     /** Renvoie une liste de tous les mouvements légaux à ce stade de la partie. */
@@ -375,4 +375,4 @@ class Angola {
 
 }
 
-module.exports.Angola = Angola;
+module.exports.Ngola = Ngola;
