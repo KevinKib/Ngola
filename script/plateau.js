@@ -145,9 +145,17 @@ class Plateau {
 
     /** Définit une moitié de plateau à partir d'une liste de cases et d'un index. */
     setCases(listeCases) {
+        let nbBillesTotal = 0;
         for (let c of listeCases) {
             this.getCase(c.nom).nbBilles = c.nbBilles;
+            nbBillesTotal += c.nbBilles;
         }
+
+        // Vérification de validité
+        if (nbBillesTotal != this.__ngola.NB_BILLES_PAR_JOUEUR) {
+            throw new Error('Nombre de billes initialisées différent de '+this.__ngola.NB_BILLES_PAR_JOUEUR+'.');
+        }
+            
     }
 
     /** Affiche le plateau sous un visuel console. */

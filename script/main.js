@@ -40,15 +40,14 @@ class Main {
             let i = 0;
 
             // Game
-            console.log('Plateau initialisé : '+ngola.estInitialise);
             ngola.plateau.ascii_light();
             ngola.initialiser(player_1.initBoard(1));
             ngola.initialiser(player_2.initBoard(2));
+            console.log('');
             ngola.plateau.ascii_light();
-            console.log('Plateau initialisé : '+ngola.estInitialise);
 
             console.log('');
-            while(ngola.enJeu && i < maxGameLength) {
+            while(ngola.enJeu && ngola.estInitialise && i < maxGameLength) {
                 Writer.enableOutput = false;
                 
                 let move = null;
