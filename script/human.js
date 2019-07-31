@@ -10,13 +10,12 @@ class Human {
     /** Thinks and returns a move. */
     async play() {
 
-        console.log('I reached lmao')
-        await io.read();
-        console.log('I reached lmao 2')
-        // io.write(await io.read());
+        let selectedCase;
 
-        let randomIndex = Math.floor(Math.random() * this.__ngola.listeLegalMoves.length);
-        return this.__ngola.listeLegalMoves[randomIndex];
+        selectedCase = await io.read();
+        console.log('');
+
+        return selectedCase;
     }
     
     /** Inits one side of the board. */

@@ -33,8 +33,8 @@ class Main {
         
 
         // Player settings
-        let player_1 = smartAI_2;
-        let player_2 = player_human;
+        let player_1 = player_human;
+        let player_2 = smartAI_2;
 
         const p1_gameOutput = false;
         const p2_gameOutput = false;
