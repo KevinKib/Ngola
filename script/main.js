@@ -1,6 +1,7 @@
 const Ngola = require('./ngola').Ngola;
 const AI = require('./ai');
 const AI_Minimax = require('./ai_minimax');
+const Human = require('./human');
 const Writer = require('./writer');
 
 class Main {
@@ -9,7 +10,7 @@ class Main {
         this.test_runAI();
     }
 
-    static test_runAI() {   
+    static async test_runAI() {   
 
         let ngola = new Ngola();
 
@@ -19,7 +20,7 @@ class Main {
 
         // Game parameters
         let maxGameLength = 1000;
-        const maxNbGames = 100;
+        const maxNbGames = 1;
 
         // AI settings
         let randomAI = new AI(ngola);
@@ -27,11 +28,13 @@ class Main {
         let smartAI_1 = new AI_Minimax(ngola, 1);
         let smartAI_2 = new AI_Minimax(ngola, 2);
         let smartAI_3 = new AI_Minimax(ngola, 3);
+
+        const player_human = new Human(ngola);
         
 
         // Player settings
         let player_1 = smartAI_2;
-        let player_2 = smartAI_1;
+        let player_2 = player_human;
 
         const p1_gameOutput = false;
         const p2_gameOutput = false;
@@ -40,13 +43,13 @@ class Main {
             let i = 0;
 
             // Game
-            // ngola.plateau.ascii_light();
+            ngola.plateau.ascii_light();
             ngola.initialiser(player_1.initBoard(1));
             ngola.initialiser(player_2.initBoard(2));
-            // console.log('');
-            // ngola.plateau.ascii_light();
+            console.log('');
+            ngola.plateau.ascii_light();
+            console.log('');
 
-            // console.log('');
             while(ngola.enJeu && ngola.estInitialise && i < maxGameLength) {
                 Writer.enableOutput = false;
                 
@@ -54,20 +57,20 @@ class Main {
 
                 if (ngola.joueurCourant === 1)  {
                     Writer.enableOutput = p1_gameOutput;
-                    move = player_1.play();
+                    move = await player_1.play();
                     Writer.log('AI_1 | Move played : '+move+'\n');
                 }
                 else {
                     Writer.enableOutput = p2_gameOutput;
-                    move = player_2.play();
+                    move = await player_2.play();
                     Writer.log('AI_2 | Move played : '+move+'\n');
                 }
 
-                Writer.enableOutput = false;
+                Writer.enableOutput = true;
 
                 ngola.play(move);
-                // ngola.plateau.ascii_light();
-                // Writer.log('');
+                ngola.plateau.ascii_light();
+                Writer.log('');
                 i++;
             }
 

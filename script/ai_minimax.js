@@ -13,7 +13,7 @@ class AI_Minimax extends AI {
     }
 
     /** Thinks and returns a move. */
-    play() {
+    async play() {
         this.nbTours++;
 
         let childNodes = this.__ngola.listeLegalMoves;
