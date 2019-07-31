@@ -10,7 +10,6 @@ class AI_Minimax extends AI {
         // Statistics
         this.nbLegalMoves = 0;
         this.nbTours = 0;
-
     }
 
     /** Thinks and returns a move. */

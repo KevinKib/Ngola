@@ -19,7 +19,7 @@ class Main {
 
         // Game parameters
         let maxGameLength = 1000;
-        let maxNbGames = 1;
+        const maxNbGames = 100;
 
         // AI settings
         let randomAI = new AI(ngola);
@@ -30,23 +30,23 @@ class Main {
         
 
         // Player settings
-        let player_1 = smartAI_1;
+        let player_1 = smartAI_2;
         let player_2 = smartAI_1;
 
-        let p1_gameOutput = false;
-        let p2_gameOutput = false;
+        const p1_gameOutput = false;
+        const p2_gameOutput = false;
 
         while (nbGames < maxNbGames) {
             let i = 0;
 
             // Game
-            ngola.plateau.ascii_light();
+            // ngola.plateau.ascii_light();
             ngola.initialiser(player_1.initBoard(1));
             ngola.initialiser(player_2.initBoard(2));
-            console.log('');
-            ngola.plateau.ascii_light();
+            // console.log('');
+            // ngola.plateau.ascii_light();
 
-            console.log('');
+            // console.log('');
             while(ngola.enJeu && ngola.estInitialise && i < maxGameLength) {
                 Writer.enableOutput = false;
                 
@@ -63,33 +63,16 @@ class Main {
                     Writer.log('AI_2 | Move played : '+move+'\n');
                 }
 
-                Writer.enableOutput = true;
+                Writer.enableOutput = false;
 
                 ngola.play(move);
-                ngola.plateau.ascii_light();
-                Writer.log('');
+                // ngola.plateau.ascii_light();
+                // Writer.log('');
                 i++;
             }
 
-            switch(ngola.etatZeroSum) {
-                case 1: 
-                    //Writer.log('Joueur 1 gagne.');
-                    j1Score++;
-                    break;
-                case 0: 
-                    //Writer.log('Match nul.');
-                    j1Score += 0.5;
-                    j2Score += 0.5;
-                    break;
-                case -1: 
-                    //Writer.log('Joueur 2 gagne.');
-                    j2Score++;
-                    break;
-                default:
-                    //Writer.log('Erreur ?');
-                    j1Score += 0.5;
-                    j2Score += 0.5;
-            }
+            let etatJeu = this.attribuerPoints(ngola.etatZeroSum);
+            [j1Score, j2Score] = [j1Score + etatJeu[0], j2Score + etatJeu[1]];
 
             nbGames++;
             ngola.reset();
@@ -106,6 +89,36 @@ class Main {
         */
         
 
+    }
+
+    /** Attribue les points de la partie à un joueur. 
+     * @returns Tableau avec le score du joueur 1 en index 0 et le score du joueur 2 en index 1.
+    */
+    static attribuerPoints(etatZeroSum) {
+        let j1Score = 0;
+        let j2Score = 0;
+
+        switch(etatZeroSum) {
+            case 1: 
+                //Writer.log('Joueur 1 gagne.');
+                j1Score++;
+                break;
+            case 0: 
+                //Writer.log('Match nul.');
+                j1Score += 0.5;
+                j2Score += 0.5;
+                break;
+            case -1: 
+                //Writer.log('Joueur 2 gagne.');
+                j2Score++;
+                break;
+            default:
+                //Writer.log('Erreur ?');
+                j1Score += 0.5;
+                j2Score += 0.5;
+        }
+
+        return [j1Score, j2Score];
     }
 
     static test_clone() {   
