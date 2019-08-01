@@ -14,30 +14,31 @@ class Main {
 
         let ngola = new Ngola();
 
+        // GAME SETTINGS
+        const p1_thinking = false;
+        const p2_thinking = false;
+
+
+        // AI settings
+        const randomAI = new AI(ngola);
+        const smartAI_0 = new AI_Minimax(ngola, 0);
+        const smartAI_1 = new AI_Minimax(ngola, 1);
+        const smartAI_2 = new AI_Minimax(ngola, 2);
+        const smartAI_3 = new AI_Minimax(ngola, 3);
+        const player_human = new Human(ngola);
+
+
+        // Player settings
+        let player_1 = smartAI_0;
+        let player_2 = smartAI_0;
+
+
+        // Variables
         let nbGames = 0;
         let j1Score = 0;
         let j2Score = 0;
-
-        // Game parameters
         let maxGameLength = 1000;
         const maxNbGames = 1;
-
-        // AI settings
-        let randomAI = new AI(ngola);
-        let smartAI_0 = new AI_Minimax(ngola, 0);
-        let smartAI_1 = new AI_Minimax(ngola, 1);
-        let smartAI_2 = new AI_Minimax(ngola, 2);
-        let smartAI_3 = new AI_Minimax(ngola, 3);
-
-        const player_human = new Human(ngola);
-        
-
-        // Player settings
-        let player_1 = player_human;
-        let player_2 = smartAI_2;
-
-        const p1_gameOutput = false;
-        const p2_gameOutput = false;
 
         while (nbGames < maxNbGames) {
             let i = 0;
@@ -46,7 +47,7 @@ class Main {
             ngola.plateau.ascii_light();
             ngola.initialiser(player_1.initBoard(1));
             ngola.initialiser(player_2.initBoard(2));
-            console.log('');
+            console.log('\nGame initialized.\n');
             ngola.plateau.ascii_light();
             console.log('');
 
@@ -56,19 +57,31 @@ class Main {
                 let move = null;
 
                 if (ngola.joueurCourant === 1)  {
-                    Writer.enableOutput = p1_gameOutput;
+                    Writer.enableOutput = p1_thinking;
                     move = await player_1.play();
+
+                    // Display move
+                    Writer.enableOutput = true;
                     Writer.log('AI_1 | Move played : '+move+'\n');
                 }
                 else {
-                    Writer.enableOutput = p2_gameOutput;
+                    Writer.enableOutput = p2_thinking;
                     move = await player_2.play();
+
+                    // Display move
+                    Writer.enableOutput = true;
                     Writer.log('AI_2 | Move played : '+move+'\n');
                 }
 
                 Writer.enableOutput = true;
 
-                ngola.play(move);
+                try {
+                    ngola.play(move);
+                }
+                catch(e) {
+                    console.error('Invalid move.\n');
+                }
+                
                 ngola.plateau.ascii_light();
                 Writer.log('');
                 i++;
