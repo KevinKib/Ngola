@@ -1,5 +1,6 @@
 const Writer = require('./writer');
 const AI = require('./ai');
+const Evaluation = require('./evaluation');
 
 class AI_Minimax extends AI {
 
@@ -97,20 +98,12 @@ class AI_Minimax extends AI {
 
     /** Evalue une position donnée du jeu Ngola. */
     evaluation(ngola) {
+        const evaluator = new Evaluation(ngola);
         let res = 0;
-
-        let nbBilles_J1 = 0;
-        let nbBilles_J2 = 0;
-
-        for (let c of ngola.plateau.getListeCases(1)) {
-            nbBilles_J1 += c.nbBilles;
-        }
-        for (let c of ngola.plateau.getListeCases(2)) {
-            nbBilles_J2 += c.nbBilles;
-        }
-
-        res = nbBilles_J1 - nbBilles_J2;
-
+        
+        res += evaluator.nbBilles();
+        res += evaluator.gameState();
+        
         return res;
     }
 

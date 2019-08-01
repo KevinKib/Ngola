@@ -15,11 +15,11 @@ class Main {
         let ngola = new Ngola();
 
         // GAME SETTINGS
-        const maxNbGames = 1000;
+        const maxNbGames = 1;
         const text = {
-            board: false,
+            board: true,
             p1_thinking: false,
-            p2_thinking: false,
+            p2_thinking: true,
         }
 
 
@@ -33,8 +33,8 @@ class Main {
 
 
         // Player settings
-        let player_1 = smartAI_1;
-        let player_2 = smartAI_0;
+        let player_1 = smartAI_0;
+        let player_2 = smartAI_1;
 
 
         // Variables
