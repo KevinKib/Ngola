@@ -15,8 +15,12 @@ class Main {
         let ngola = new Ngola();
 
         // GAME SETTINGS
-        const p1_thinking = false;
-        const p2_thinking = false;
+        const maxNbGames = 1000;
+        const text = {
+            board: false,
+            p1_thinking: false,
+            p2_thinking: false,
+        }
 
 
         // AI settings
@@ -29,7 +33,7 @@ class Main {
 
 
         // Player settings
-        let player_1 = smartAI_0;
+        let player_1 = smartAI_1;
         let player_2 = smartAI_0;
 
 
@@ -38,18 +42,19 @@ class Main {
         let j1Score = 0;
         let j2Score = 0;
         let maxGameLength = 1000;
-        const maxNbGames = 1;
 
         while (nbGames < maxNbGames) {
             let i = 0;
 
             // Game
-            ngola.plateau.ascii_light();
             ngola.initialiser(player_1.initBoard(1));
             ngola.initialiser(player_2.initBoard(2));
-            console.log('\nGame initialized.\n');
+
+            Writer.enableOutput = text.board;
+            Writer.log('\nGame initialized.\n');
+            
             ngola.plateau.ascii_light();
-            console.log('');
+            Writer.log('');
 
             while(ngola.enJeu && ngola.estInitialise && i < maxGameLength) {
                 Writer.enableOutput = false;
@@ -57,23 +62,23 @@ class Main {
                 let move = null;
 
                 if (ngola.joueurCourant === 1)  {
-                    Writer.enableOutput = p1_thinking;
+                    Writer.enableOutput = text.p1_thinking;
                     move = await player_1.play();
 
                     // Display move
-                    Writer.enableOutput = true;
+                    Writer.enableOutput = text.board;
                     Writer.log('AI_1 | Move played : '+move+'\n');
                 }
                 else {
-                    Writer.enableOutput = p2_thinking;
+                    Writer.enableOutput = text.p2_thinking;
                     move = await player_2.play();
 
                     // Display move
-                    Writer.enableOutput = true;
+                    Writer.enableOutput = text.board;
                     Writer.log('AI_2 | Move played : '+move+'\n');
                 }
 
-                Writer.enableOutput = true;
+                Writer.enableOutput = text.board;
 
                 try {
                     ngola.play(move);
@@ -98,6 +103,7 @@ class Main {
         Writer.enableOutput = true;
         Writer.log('J1Score : '+j1Score);
         Writer.log('J2Score : '+j2Score);
+        console.log('');
 
         /*
         console.log(player_1.nbTours + '|' + player_1.nbLegalMoves);
