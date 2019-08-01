@@ -186,7 +186,12 @@ class Plateau {
                 let nom = col+line;
 
                 let c = this.getCase(nom);
-                Writer.logOnLine(c.nbBilles+' ');
+
+                // Eviter que les 10+ nombres de billes changent le formatage
+                let space = '  ';
+                if (c.nbBilles > 9) space = ' ';
+
+                Writer.logOnLine(c.nbBilles+space);
             }
             Writer.log('');
         }
