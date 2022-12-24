@@ -15,7 +15,7 @@ class Main {
         let ngola = new Ngola();
 
         // GAME SETTINGS
-        const maxNbGames = 1;
+        const maxNbGames = 3;
         const text = {
             board: true,
             p1_thinking: false,
